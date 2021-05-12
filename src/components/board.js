@@ -82,7 +82,42 @@ export default function Board(props) {
     if (validateMove(x, y)) {
       flipPieces(x, y)
       flipPiece(x, y, props.blackIsNext ? 2 : 1)
+      if (calculateGameEnd()) {
+        calculateWinner(props.setWinner)
+      }
       props.setBlackIsNext(!props.blackIsNext)
+    }
+  }
+
+  function calculateGameEnd() {
+    for (let y = 0; y < 8; y++) {
+      for (let x = 0; x < 8; x++) {
+        if (cells[y][x] === 0) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  function calculateWinner(setWinner) {
+    let blackPoint, whitePoint;
+    blackPoint = whitePoint = 0;
+    for (let y = 0; y < 8; y++) {
+      for (let x = 0; x < 8; x++) {
+        if (cells[y][x] === 1) {
+          whitePoint++;
+        } else if (cells[y][x] === 2) {
+          blackPoint++;
+        }
+      }
+    }
+    if (whitePoint > blackPoint) {
+      setWinner("白")
+    } else if (whitePoint < blackPoint) {
+      setWinner("黒")
+    } else if (whitePoint === blackPoint) {
+      setWinner("引き分け")
     }
   }
 

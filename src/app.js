@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 import './style.css'
 import Board from './components/board'
-import NextPlayer from './components/label'
+import Label from './components/label'
 
 function App() {
   const [blackIsNext, setBlackIsNext] = useState(true)
+  const [winner, setWinner] = useState('')
   return (
     <>
     <div className="wrapper">
-      <NextPlayer blackIsNext={blackIsNext} />
-      <Board blackIsNext={blackIsNext} setBlackIsNext={setBlackIsNext} />
+      <Label blackIsNext={blackIsNext} winner={winner} />
+      <Board blackIsNext={blackIsNext} setBlackIsNext={setBlackIsNext} setWinner={setWinner} />
     </div>
     </>
   );
