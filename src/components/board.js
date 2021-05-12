@@ -1,5 +1,4 @@
 import Square from './square'
-import { useState } from 'react';
 
 const initArr = new Array(64)
 initArr.fill(0)
@@ -7,7 +6,7 @@ initArr[27] = initArr[36] = 1;
 initArr[28] = initArr[35] = 2;
 
 export default function Board(props) {
-  const [cells, setCells] = useState(initArr)
+  let cells = initArr
   
   function validateMove(cell) {
     if (cells[cell] !== 0) return false;
@@ -33,16 +32,50 @@ export default function Board(props) {
     }
     return false;
   }
+
+  function flipPieces(cell) {
+    let enemyColor = props.blackIsNext ? 1 : 2;
+    let myColor = props.blackIsNext ? 2 : 1;
+    const horizonMoves = [-1, 1];
+    const verticalMoves = [-8, 8];
+    for (let i = 0; i < 2; i++) {
+      let horizon = cell + horizonMoves[i];
+      let vertical = cell + verticalMoves[i];
+      while (cells[horizon] === enemyColor) {
+        horizon += horizonMoves[i];
+        if (cells[horizon] === myColor) {
+          horizon -= horizonMoves[i];
+          while (horizon !== cell) {
+            flipPiece(horizon, myColor)
+            horizon -= horizonMoves[i]
+          } 
+        }
+      }
+      while (cells[vertical] === enemyColor) {
+        vertical += verticalMoves[i];
+        if (cells[vertical] === myColor) {
+          vertical -= verticalMoves[i];
+          while (vertical !== cell) {
+            flipPiece(vertical, myColor)
+            vertical -= verticalMoves[i]
+          }
+        }
+      }
+    }
+  }
+
+  function flipPiece(cell, myColor) {
+    cells[cell] = myColor
+  }
   
   function handleCellChange(cell) {
-    console.log(cell)
     if (validateMove(cell)) {
-      const cellsCopy = cells.slice()
-      cellsCopy[cell] = props.blackIsNext ? 2 : 1
-      setCells(cellsCopy)
+      flipPieces(cell)
+      flipPiece(cell, props.blackIsNext ? 2 : 1)
       props.setBlackIsNext(!props.blackIsNext)
     }
   }
+
   return (
     <div className="board">
       {cells.map((cell, index) => {
