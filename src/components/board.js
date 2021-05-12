@@ -1,11 +1,13 @@
 import Square from './square'
 import { useState } from 'react';
 
-const emptyArr = new Array(64)
-emptyArr.fill(0)
+const initArr = new Array(64)
+initArr.fill(0)
+initArr[27] = initArr[36] = 1;
+initArr[28] = initArr[35] = 2;
 
 export default function Board(props) {
-  const [cells, setCells] = useState(emptyArr)
+  const [cells, setCells] = useState(initArr)
   
   function handleCellChange(cell) {
     const cellsCopy = cells.slice()
