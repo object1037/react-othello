@@ -14,9 +14,13 @@ export default function Board(props) {
     let myColor = props.blackIsNext ? 2 : 1;
     const horizonMoves = [-1, 1];
     const verticalMoves = [-8, 8];
+    const tl2brMoves = [-9, +9]; // top-left to bottom-right
+    const tr2blMoves = [-7, +7]; // top-right to bottom-left
     for (let i = 0; i < 2; i++) {
       let horizon = cell + horizonMoves[i];
       let vertical = cell + verticalMoves[i];
+      let tl2br = cell + tl2brMoves[i];
+      let tr2bl = cell + tr2blMoves[i];
       while (cells[horizon] === enemyColor) {
         horizon += horizonMoves[i];
         if (cells[horizon] === myColor) {
@@ -29,6 +33,18 @@ export default function Board(props) {
           return true;
         }
       }
+      while (cells[tl2br] === enemyColor) {
+        tl2br += tl2brMoves[i];
+        if (cells[tl2br] === myColor) {
+          return true;
+        }
+      }
+      while (cells[tr2bl] === enemyColor) {
+        tr2bl += tr2blMoves[i];
+        if (cells[tr2bl] === myColor) {
+          return true;
+        }
+      }
     }
     return false;
   }
@@ -38,9 +54,13 @@ export default function Board(props) {
     let myColor = props.blackIsNext ? 2 : 1;
     const horizonMoves = [-1, 1];
     const verticalMoves = [-8, 8];
+    const tl2brMoves = [-9, +9]; // top-left to bottom-right
+    const tr2blMoves = [-7, +7]; // top-right to bottom-left
     for (let i = 0; i < 2; i++) {
       let horizon = cell + horizonMoves[i];
       let vertical = cell + verticalMoves[i];
+      let tl2br = cell + tl2brMoves[i];
+      let tr2bl = cell + tr2blMoves[i];
       while (cells[horizon] === enemyColor) {
         horizon += horizonMoves[i];
         if (cells[horizon] === myColor) {
@@ -58,6 +78,26 @@ export default function Board(props) {
           while (vertical !== cell) {
             flipPiece(vertical, myColor)
             vertical -= verticalMoves[i]
+          }
+        }
+      }
+      while (cells[tl2br] === enemyColor) {
+        tl2br += tl2brMoves[i];
+        if (cells[tl2br] === myColor) {
+          tl2br -= tl2brMoves[i];
+          while (tl2br !== cell) {
+            flipPiece(tl2br, myColor)
+            tl2br -= tl2brMoves[i]
+          }
+        }
+      }
+      while (cells[tr2bl] === enemyColor) {
+        tr2bl += tr2blMoves[i];
+        if (cells[tr2bl] === myColor) {
+          tr2bl -= tr2blMoves[i];
+          while (tr2bl !== cell) {
+            flipPiece(tr2bl, myColor)
+            tr2bl -= tr2blMoves[i]
           }
         }
       }
