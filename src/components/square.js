@@ -3,7 +3,7 @@ export default function Square(props) {
     if (cell !== 0) {
       return;
     } else {
-      props.cellChange(props.index)
+      props.cellChange(props.x, props.y)
     }
   }
   let piece = ''
