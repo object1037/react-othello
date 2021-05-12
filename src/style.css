@@ -1,3 +1,7 @@
+* {
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", YuGothic, "Yu Gothic Medium", "Yu Gothic", sans-serif;
+}
+
 .wrapper {
   display: flex;
   flex-direction: column;
