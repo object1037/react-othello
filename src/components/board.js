@@ -4,7 +4,7 @@ const initArr = new Array(8)
 for (let y = 0; y < 8; y++) {
   initArr[y] = Array(8).fill(0)
 }
-initArr[3][3] = initArr[4][4] = initArr[5][4] = initArr[6][4] = 1;
+initArr[3][3] = initArr[4][4] = 1;
 initArr[3][4] = initArr[4][3] = 2;
 
 export default function Board(props) {
