@@ -1,3 +1,14 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+}
+.label {
+  font-size: 2rem;
+  padding: 1rem;
+}
 .board {
   display: grid;
   background-color: beige;
@@ -23,28 +34,15 @@
   color: #000;
   font-size: 1.75rem;
 }
-.wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 1rem;
-}
 @media (min-width: 600px) {
   .board {
-    display: grid;
-    background-color: beige;
     grid-template-columns: repeat(8, 4rem);
     grid-template-rows: repeat(8, 4rem);
-    border-bottom: 1px solid #000;
-    border-left: 1px solid #000;
-    overflow: auto;
   }
   .white-piece {
-    color: #fff;
     font-size: 2.5rem;
   }
   .black-piece {
-    color: #000;
     font-size: 2.5rem;
   }
 }
