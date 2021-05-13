@@ -1,4 +1,6 @@
 import Square from './square'
+import { toast } from 'react-toastify';
+
 
 const initArr = new Array(8)
 for (let y = 0; y < 8; y++) {
@@ -88,8 +90,13 @@ export default function Board(props) {
     if (validateMove(x, y)) {
       flipPieces(x, y)
       flipPiece(x, y, nextColor)
+      if (calculateGameEnd()) {
+        calculateWinner(props.setWinner)
+        return;
+      }
       if (passCheck()) {
         passTimes++;
+        notify(props.blackIsNext ? "白" : "黒")
         props.setMove(props.move + 1)
       } else if (!passCheck()) {
         nextColor = nextColor === 2 ? 1 : 2;
@@ -144,6 +151,10 @@ export default function Board(props) {
       }
     }
     return true;
+  }
+
+  const notify = (color) => {
+    toast(`${color} : パスしました`);
   }
 
   return (
