@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './style.css'
 import Board from './components/board'
 import Label from './components/label'
+import GHLink from './components/GitHubLink'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -15,6 +16,7 @@ function App() {
     <div className="wrapper">
       <Label blackIsNext={blackIsNext} winner={winner} />
       <Board blackIsNext={blackIsNext} setBlackIsNext={setBlackIsNext} setWinner={setWinner} move={move} setMove={setMove} />
+      <GHLink />
     </div>
     </>
   );
