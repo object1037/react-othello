@@ -4,18 +4,25 @@ const initArr = new Array(8)
 for (let y = 0; y < 8; y++) {
   initArr[y] = Array(8).fill(0)
 }
-initArr[3][3] = initArr[4][4] = 1;
+initArr[3][3] = initArr[4][4] = 2;
 initArr[3][4] = initArr[4][3] = 2;
+initArr[4][5] = 1;
+initArr[0][0] = 2;
+initArr[0][1] = 1;
 
 export default function Board(props) {
   let cells = initArr
   
-  function validateMove(x, y) {
+  function validateMove(x, y, flip) {
     if (cells[y][x] !== 0) {
       return false;
     }
     let enemyColor = props.blackIsNext ? 1 : 2;
     let myColor = props.blackIsNext ? 2 : 1;
+    if (flip) {
+      myColor = props.blackIsNext ? 1 : 2;
+      enemyColor = props.blackIsNext ? 2 : 1;
+    }
     let ry, rx;
     for (let ix = -1; ix <= 1; ix++) {
       for (let iy = -1; iy <= 1; iy++) {
@@ -79,13 +86,18 @@ export default function Board(props) {
   }
   
   function handleCellChange(x, y) {
+    let nextColor = props.blackIsNext ? 2 : 1;
     if (validateMove(x, y)) {
       flipPieces(x, y)
-      flipPiece(x, y, props.blackIsNext ? 2 : 1)
+      flipPiece(x, y, nextColor)
       if (calculateGameEnd()) {
         calculateWinner(props.setWinner)
       }
-      props.setBlackIsNext(!props.blackIsNext)
+      console.log(passCheck())
+      if (!passCheck()) {
+        nextColor = props.blackIsNext ? 1 : 2;
+      }
+      props.setBlackIsNext(nextColor)
     }
   }
 
@@ -119,6 +131,17 @@ export default function Board(props) {
     } else if (whitePoint === blackPoint) {
       setWinner("引き分け")
     }
+  }
+
+  function passCheck() {
+    for (let y = 0; y < 8; y++) {
+      for (let x = 0; x < 8; x++) {
+        if (validateMove(x, y, true)) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   return (
