@@ -6,11 +6,12 @@ import Label from './components/label'
 function App() {
   const [blackIsNext, setBlackIsNext] = useState(true)
   const [winner, setWinner] = useState('')
+  const [move, setMove] = useState(0)
   return (
     <>
     <div className="wrapper">
       <Label blackIsNext={blackIsNext} winner={winner} />
-      <Board blackIsNext={blackIsNext} setBlackIsNext={setBlackIsNext} setWinner={setWinner} />
+      <Board blackIsNext={blackIsNext} setBlackIsNext={setBlackIsNext} setWinner={setWinner} move={move} setMove={setMove} />
     </div>
     </>
   );

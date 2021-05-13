@@ -4,11 +4,9 @@ const initArr = new Array(8)
 for (let y = 0; y < 8; y++) {
   initArr[y] = Array(8).fill(0)
 }
-initArr[3][3] = initArr[4][4] = 2;
+initArr[3][3] = initArr[4][4] = 1;
 initArr[3][4] = initArr[4][3] = 2;
-initArr[4][5] = 1;
-initArr[0][0] = 2;
-initArr[0][1] = 1;
+let passTimes = 0;
 
 export default function Board(props) {
   let cells = initArr
@@ -90,18 +88,22 @@ export default function Board(props) {
     if (validateMove(x, y)) {
       flipPieces(x, y)
       flipPiece(x, y, nextColor)
+      if (passCheck()) {
+        passTimes++;
+        props.setMove(props.move + 1)
+      } else if (!passCheck()) {
+        nextColor = nextColor === 2 ? 1 : 2;
+        props.setMove(props.move + 1)
+      }
       if (calculateGameEnd()) {
         calculateWinner(props.setWinner)
       }
-      console.log(passCheck())
-      if (!passCheck()) {
-        nextColor = props.blackIsNext ? 1 : 2;
-      }
-      props.setBlackIsNext(nextColor)
+      props.setBlackIsNext(nextColor === 2)
     }
   }
 
   function calculateGameEnd() {
+    if (passTimes >= 2) return true;
     for (let y = 0; y < 8; y++) {
       for (let x = 0; x < 8; x++) {
         if (cells[y][x] === 0) {
@@ -149,7 +151,7 @@ export default function Board(props) {
       {cells.map((row, y) => {
         return row.map((cell, x) => {
           return (
-            <Square cell={cell} x={x} y={y} cellChange={handleCellChange} key={`${y}:${x}`} />
+            <Square cell={cell} x={x} y={y} cellChange={handleCellChange} key={`${y}:${x}:${cell}`} />
           )
         })
       })}
